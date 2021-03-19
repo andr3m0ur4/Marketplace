@@ -3,7 +3,7 @@
     namespace Controllers;
 
     use Core\Controller;
-    use Models\Usuario;
+    use Models\Store;
 
     class HomeController extends Controller
     {
@@ -11,9 +11,12 @@
         {
             $data = [];
 
-            $usuarios = new Usuario();
-            $data['usuarios'] = $usuarios->getAll();
+            $store = new Store();
 
-            $this->loadTemplate('home', $data);
+            $data = [
+                'stores' => $store->getAll()
+            ];
+            
+            echo json_encode($data);
         }
     }

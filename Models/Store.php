@@ -4,13 +4,13 @@
 
     use Core\Model;
 
-    class Usuario extends Model
+    class Store extends Model
     {
         public function getAll()
         {
             $array = [];
 
-            $sql = "SELECT * FROM usuarios";
+            $sql = "SELECT * FROM stores";
             $sql = $this->db->query($sql);
 
             if ($sql->rowCount() > 0) {
