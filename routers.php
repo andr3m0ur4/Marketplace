@@ -2,5 +2,11 @@
 
     global $routes;
     $routes = [
-        '/home' => '/home/index'
+        '/stores/login' => '/store/login',
+        '/stores/register' => '/store/register',
+        '/stores/{id}' => '/store/manage/:id',
+
+        '/product/{id}' => '/product/manage/:id',
+        '/products' => '/product/search',
+        '/product' => '/product/insert',
     ];
