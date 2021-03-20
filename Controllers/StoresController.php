@@ -23,11 +23,11 @@
 
             if ($method == 'POST') {
                 if (!empty($data['email']) && !empty($data['password'])) {
-                    $user = new Store();
+                    $store = new Store();
 
-                    if ($user->checkCredentials($data['email'], $data['password'])) {
+                    if ($store->checkCredentials($data['email'], $data['password'])) {
                         // Gerar JWT
-                        $response['jwt'] = '...';
+                        $response['jwt'] = $store->createJWT();
                     } else {
                         $response['error'] = 'Acesso negado.';
                     }

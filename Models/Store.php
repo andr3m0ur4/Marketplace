@@ -40,5 +40,11 @@
 
             return false;
         }
+
+        public function createJWT()
+        {
+            $jwt = new JWT();
+            return $jwt->create(['id_store' => $this->id_store]);
+        }
     }
     
