@@ -17,6 +17,6 @@
                 'stores' => $store->getAll()
             ];
             
-            echo json_encode($data);
+            return $this->returnJson($data);
         }
     }

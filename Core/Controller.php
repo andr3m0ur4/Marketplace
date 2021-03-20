@@ -4,33 +4,38 @@
 
     class Controller
     {
-        public function loadView($viewName, $viewData = [])
+        public function getMethod()
         {
-            extract($viewData);
-
-            require "../Views/{$viewName}.php";
+            return $_SERVER['REQUEST_METHOD'];
         }
 
-        public function loadTemplate($viewName, $viewData = [])
+        public function getRequestData()
         {
-            require '../Views/template.php';
-        }
+            switch ($this->getMethod()) {
+                case 'GET':
+                    return $_GET;
+                    break;
 
-        public function loadViewInTemplate($viewName, $viewData = [])
-        {
-            extract($viewData);
-            
-            require "../Views/{$viewName}.php";
-        }
+                case 'PUT':
+                case 'DELETE':
+                    parse_str(file_get_contents('php://input'), $data);
+                    return (array) $data;
+                    break;
 
-        protected function validateFields()
-        {
-            foreach ($_POST as $key) {
-                if (empty($key)) {
-                    return false;
-                }
+                case 'POST':
+                    $data = json_decode(file_get_contents('php://input'));
+
+                    $data = is_null($data) ? $_POST : $data;
+
+                    return (array) $data;
+                    break;
             }
+        }
 
-            return true;
+        public function returnJson($array)
+        {
+            header('Content-Type: application/json');
+            echo json_encode($array);
+            exit;
         }
     }
