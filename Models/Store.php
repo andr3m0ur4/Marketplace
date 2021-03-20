@@ -6,6 +6,8 @@
 
     class Store extends Model
     {
+        private $id_store;
+
         public function getAll()
         {
             $array = [];
@@ -18,6 +20,25 @@
             }
 
             return $array;
+        }
+
+        public function checkCredentials($email, $password) {
+            $sql = "SELECT id, password FROM stores WHERE email = :email";
+            $sql = $this->db->prepare($sql);
+            $sql->bindValue(':email', $email);
+            $sql->execute();
+
+            if ($sql->rowCount() > 0) {
+                $store = $sql->fetch(\PDO::FETCH_OBJ);
+
+                if (password_verify($password, $store->password)) {
+                    $this->id_store = $store->id;
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
     

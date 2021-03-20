@@ -5,12 +5,12 @@
     $config = [];
 
     if (ENVIRONMENT == 'development') {
-        define('BASE_URL', 'http://localhost:8080');
+        define('BASE_URL', 'http://marketplace.com');
         $config = [
             'dbname' => 'marketplace',
             'host' => 'localhost',
-            'dbuser' => 'root',
-            'dbpass' => ''
+            'dbuser' => 'andre-moura',
+            'dbpass' => 'andre'
         ];
     } else {
         define('BASE_URL', 'https://meusite.com.br');
