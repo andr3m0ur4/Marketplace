@@ -120,6 +120,7 @@ use Models\Store;
                         break;
 
                     case 'DELETE':
+                        $response['error'] = $store->delete();
                         break;
 
                     default:

@@ -100,6 +100,14 @@
             return 'Não é permitido editar outra loja.';
         }
 
+        public function delete()
+        {
+            $sql = "DELETE FROM addresses WHERE id = :id";
+            $this->query($sql, [
+                ':id' => $this->id
+            ]);
+        }
+
         private function validateAttributes($address)
         {
             if (!empty($this->public_place)) {

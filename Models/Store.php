@@ -3,6 +3,7 @@
     namespace Models;
 
     use Core\Model;
+    use Models\Address;
 
     class Store extends Model
     {
@@ -138,6 +139,25 @@
             }
 
             return 'Não é permitido editar outra loja.';
+        }
+
+        public function delete()
+        {
+            if ($this->id === $this->getId()) {
+                $store = $this->getStore();
+
+                $sql = "DELETE FROM stores WHERE id = :id";
+                $this->query($sql, [
+                    ':id' => $this->id
+                ]);
+
+                $address = new Address();
+                $address->id = $store->id_address;
+                $address->delete();
+                return '';
+            } else {
+                return 'Não é permitido excluir outro usuário.';
+            }
         }
 
         public function createJWT()
