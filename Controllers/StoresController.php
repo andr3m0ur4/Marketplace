@@ -24,8 +24,10 @@
             if ($method == 'POST') {
                 if (!empty($data['email']) && !empty($data['password'])) {
                     $store = new Store();
+                    $store->email = $data['email'];
+                    $store->password = $data['password'];
 
-                    if ($store->checkCredentials($data['email'], $data['password'])) {
+                    if ($store->checkCredentials()) {
                         // Gerar JWT
                         $response['jwt'] = $store->createJWT();
                     } else {
@@ -39,5 +41,48 @@
             }
 
             return $this->returnJson($response);
+        }
+
+        public function register()
+        {
+            $response = [
+                'error' => false
+            ];
+
+            $method = $this->getMethod();
+            $data = $this->getRequestData();
+
+            if ($method == 'POST') {
+                $store = new Store();
+                $store->setData($data['store']);
+                $store->address = $data['address'];
+                $data = array_merge((array) $data['store'], (array) $data['address']);
+
+                if ($this->validateFields($data, $this->getRequired())) {
+                    if (filter_var($store->email, FILTER_VALIDATE_EMAIL)) {
+                        if ($store->create()) {
+                            $response['jwt'] = $store->createJWT();
+                        } else {
+                            $response['error'] = 'E-mail já existente.';
+                        }
+                    } else {
+                        $response['error'] = 'E-mail inválido.';
+                    }
+                } else {
+                    $response['error'] = 'Dados não preenchidos.';
+                }
+            } else {
+                $response['error'] = 'Método de requisição incompatível.';
+            }
+
+            return $this->returnJson($response);
+        }
+
+        private function getRequired()
+        {
+            return [
+                'fantasy_name', 'cnpj', 'company_name', 'public_place', 'number', 'neighborhood',
+                'city', 'uf', 'zip_code', 'cell_phone', 'responsible_contact', 'email', 'password'
+            ];
         }
     }

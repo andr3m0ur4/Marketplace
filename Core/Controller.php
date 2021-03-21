@@ -38,4 +38,15 @@
             echo json_encode($array);
             exit;
         }
+
+        public function validateFields($data, $fields)
+        {
+            foreach ($fields as $field) {
+                if (empty($data[$field])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
