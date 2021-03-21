@@ -78,6 +78,47 @@
             return $this->returnJson($response);
         }
 
+        public function manage($id)
+        {
+            $response = [
+                'error' => '',
+                'logged' => false
+            ];
+
+            $method = $this->getMethod();
+            $data = $this->getRequestData();
+            $token = $_SERVER['HTTP_JWT'];
+
+            $store = new Store();
+
+            if (!empty($token) && $store->validateJWT($token)) {
+                $response['logged'] = true;
+                $response['thats_me'] = false;
+
+                if ($id == $store->getId()) {
+                    $response['thats_me'] = true;
+                }
+
+                switch ($method) {
+                    case 'GET':
+                        break;
+
+                    case 'PUT':
+                        break;
+
+                    case 'DELETE':
+                        break;
+
+                    default:
+                        $response['error'] = "Método $method não disponível.";
+                }
+            } else {
+                $response['error'] = 'Acesso negado.';
+            }
+
+            return $this->returnJson($response);
+        }
+
         private function getRequired()
         {
             return [

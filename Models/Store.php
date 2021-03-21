@@ -31,6 +31,11 @@
             return $this->select($sql, $this);
         }
 
+        public function getId()
+        {
+            return $this->id_store;
+        }
+
         public function create()
         {
             if (!$this->emailExists()) {
@@ -91,6 +96,19 @@
         {
             $jwt = new JWT();
             return $jwt->create(['id_store' => $this->id_store]);
+        }
+
+        public function validateJWT($token)
+        {
+            $jwt = new JWT();
+            $value = $jwt->validate($token);
+
+            if (isset($value->id_store)) {
+                $this->id_store = $value->id_store;
+                return true;
+            }
+
+            return false;
         }
 
         private function emailExists()
