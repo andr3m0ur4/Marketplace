@@ -36,6 +36,24 @@
             return $this->id_store;
         }
 
+        public function getStore()
+        {
+            $data = [];
+
+            $sql = "SELECT * FROM stores AS s
+                INNER JOIN addresses AS a ON s.id_address = a.id
+                WHERE s.id = :id";
+            $result = $this->select($sql, $this, [
+                ':id' => $this->id
+            ]);
+
+            if (count($result) > 0) {
+                $data = $result[0];
+            }
+
+            return $data;
+        }
+
         public function create()
         {
             if (!$this->emailExists()) {

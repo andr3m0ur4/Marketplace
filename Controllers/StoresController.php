@@ -94,6 +94,7 @@
             if (!empty($token) && $store->validateJWT($token)) {
                 $response['logged'] = true;
                 $response['thats_me'] = false;
+                $store->id = $id;
 
                 if ($id == $store->getId()) {
                     $response['thats_me'] = true;
@@ -101,6 +102,11 @@
 
                 switch ($method) {
                     case 'GET':
+                        $response['data'] = $store->getStore();
+
+                        if (count((array) $response['data']) === 0) {
+                            $response['error'] = 'Loja não existe.';
+                        }
                         break;
 
                     case 'PUT':
