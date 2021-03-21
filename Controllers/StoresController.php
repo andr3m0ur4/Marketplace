@@ -3,7 +3,8 @@
     namespace Controllers;
 
     use Core\Controller;
-    use Models\Store;
+use Models\Address;
+use Models\Store;
 
     class StoresController extends Controller
     {
@@ -113,6 +114,60 @@
                         if (count($data) > 0) {
                             $store->setData($data);
                             $response['error'] = $store->editStore();
+                        } else {
+                            $response['error'] = 'Preencha os dados corretamente!';
+                        }
+                        break;
+
+                    case 'DELETE':
+                        break;
+
+                    default:
+                        $response['error'] = "Método $method não disponível.";
+                }
+            } else {
+                $response['error'] = 'Acesso negado.';
+            }
+
+            return $this->returnJson($response);
+        }
+
+        public function address($id)
+        {
+            $response = [
+                'error' => '',
+                'logged' => false
+            ];
+
+            $method = $this->getMethod();
+            $data = $this->getRequestData();
+            $token = $_SERVER['HTTP_JWT'];
+
+            $store = new Store();
+
+            if (!empty($token) && $store->validateJWT($token)) {
+                $response['logged'] = true;
+                $response['thats_me'] = false;
+                $address = new Address();
+                $address->id = $id;
+
+                if ($id == $store->getId()) {
+                    $response['thats_me'] = true;
+                }
+
+                switch ($method) {
+                    case 'GET':
+                        $response['data'] = $store->getStore();
+
+                        if (count((array) $response['data']) === 0) {
+                            $response['error'] = 'Loja não existe.';
+                        }
+                        break;
+
+                    case 'PUT':
+                        if (count($data) > 0) {
+                            $address->setData($data);
+                            $response['error'] = $address->editAddress($store->getId());
                         } else {
                             $response['error'] = 'Preencha os dados corretamente!';
                         }

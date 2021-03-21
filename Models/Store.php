@@ -137,7 +137,7 @@
                 return '';
             }
 
-            return 'Não é permitido editar outro usuário.';
+            return 'Não é permitido editar outra loja.';
         }
 
         public function createJWT()

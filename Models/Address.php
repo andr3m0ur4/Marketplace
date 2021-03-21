@@ -25,6 +25,27 @@
             }
         }
 
+        public function getId()
+        {
+            return $this->id_address;
+        }
+
+        public function getAddress()
+        {
+            $data = [];
+
+            $sql = "SELECT * FROM addresses WHERE id = :id";
+            $result = $this->select($sql, $this, [
+                ':id' => $this->id
+            ]);
+
+            if (count($result) > 0) {
+                $data = $result[0];
+            }
+
+            return $data;
+        }
+
         public function create()
         {
             $sql = "INSERT INTO addresses (
@@ -49,5 +70,58 @@
             }
 
             return false;
+        }
+
+        public function editAddress($id)
+        {
+            if ($this->id === $id) {
+                $address = $this->getAddress();
+                $this->validateAttributes($address);
+
+                $sql = "UPDATE addresses SET
+                        public_place = :public_place, number = :number, neighborhood = :neighborhood,
+                        complement = :complement, city = :city, uf = :uf, zip_code = :zip_code
+                    WHERE id = :id";
+
+                $this->query($sql, [
+                    ':id' => $address->id,
+                    ':public_place' => $address->public_place,
+                    ':number' => $address->number,
+                    ':neighborhood' => $address->neighborhood,
+                    ':complement' => $address->complement,
+                    ':city' => $address->city,
+                    ':uf' => $address->uf,
+                    ':zip_code' => $address->zip_code
+                ]);
+
+                return '';
+            }
+
+            return 'Não é permitido editar outra loja.';
+        }
+
+        private function validateAttributes($address)
+        {
+            if (!empty($this->public_place)) {
+                $address->public_place = $this->public_place;
+            }
+            if (!empty($this->number)) {
+                $address->number = $this->number;
+            }
+            if (!empty($this->neighborhood)) {
+                $address->neighborhood = $this->neighborhood;
+            }
+            if (!empty($this->complement)) {
+                $address->complement = $this->complement;
+            }
+            if (!empty($this->city)) {
+                $address->city = $this->city;
+            }
+            if (!empty($this->uf)) {
+                $address->uf = $this->uf;
+            }
+            if (!empty($this->zip_code)) {
+                $address->zip_code = $this->zip_code;
+            }
         }
     }
