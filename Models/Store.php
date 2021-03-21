@@ -110,6 +110,36 @@
             return false;
         }
 
+        public function editStore()
+        {
+            if ($this->id === $this->getId()) {
+                $store = $this->getStore();
+                $this->validateAttributes($store);
+
+                $sql = "UPDATE stores SET
+                        fantasy_name = :fantasy_name, cnpj = :cnpj, company_name = :company_name,
+                        phone = :phone, cell_phone = :cell_phone, responsible_contact = :responsible_contact,
+                        email = :email, password = :password
+                    WHERE id = :id";
+
+                $this->query($sql, [
+                    ':id' => $store->id,
+                    ':fantasy_name' => $store->fantasy_name,
+                    ':cnpj' => $store->cnpj,
+                    ':company_name' => $store->company_name,
+                    ':phone' => $store->phone,
+                    ':cell_phone' => $store->cell_phone,
+                    ':responsible_contact' => $store->responsible_contact,
+                    ':email' => $store->email,
+                    ':password' => $store->password,
+                ]);
+
+                return '';
+            }
+
+            return 'Não é permitido editar outro usuário.';
+        }
+
         public function createJWT()
         {
             $jwt = new JWT();
@@ -141,6 +171,42 @@
             }
 
             return false;
+        }
+
+        private function validateAttributes($store)
+        {
+            if (!empty($this->fantasy_name)) {
+                $store->fantasy_name = $this->fantasy_name;
+            }
+            if (!empty($this->cnpj)) {
+                $store->cnpj = $this->cnpj;
+            }
+            if (!empty($this->company_name)) {
+                $store->company_name = $this->company_name;
+            }
+            if (!empty($this->phone)) {
+                $store->phone = $this->phone;
+            }
+            if (!empty($this->cell_phone)) {
+                $store->cell_phone = $this->cell_phone;
+            }
+            if (!empty($this->responsible_contact)) {
+                $store->responsible_contact = $this->responsible_contact;
+            }
+            if (!empty($this->email)) {
+                if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+                    if (!$this->emailExists($this->email)) {
+                        $store->email = $this->email;
+                    } else {
+                        return 'Novo e-mail já existe.';
+                    }
+                } else {
+                    return 'E-mail inválido!';
+                }
+            }
+            if (!empty($this->password)) {
+                $store->password = password_hash($this->password, PASSWORD_DEFAULT);
+            }
         }
     }
     

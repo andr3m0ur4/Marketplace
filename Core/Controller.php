@@ -18,7 +18,8 @@
 
                 case 'PUT':
                 case 'DELETE':
-                    parse_str(file_get_contents('php://input'), $data);
+                    //parse_str(file_get_contents('php://input'), $data);
+                    $data = json_decode(file_get_contents('php://input'));
                     return (array) $data;
                     break;
 

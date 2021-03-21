@@ -110,6 +110,12 @@
                         break;
 
                     case 'PUT':
+                        if (count($data) > 0) {
+                            $store->setData($data);
+                            $response['error'] = $store->editStore();
+                        } else {
+                            $response['error'] = 'Preencha os dados corretamente!';
+                        }
                         break;
 
                     case 'DELETE':
