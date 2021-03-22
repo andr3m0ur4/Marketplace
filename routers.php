@@ -11,4 +11,6 @@
         '/product/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
         '/product' => '/products/insert',
+
+        '/categories' => '/categories/index'
     ];
