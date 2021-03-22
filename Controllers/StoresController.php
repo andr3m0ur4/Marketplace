@@ -3,8 +3,8 @@
     namespace Controllers;
 
     use Core\Controller;
-use Models\Address;
-use Models\Store;
+    use Models\Address;
+    use Models\Store;
 
     class StoresController extends Controller
     {
