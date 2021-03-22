@@ -41,11 +41,9 @@
         {
             $data = [];
 
-            $sql = "SELECT * FROM stores AS s
-                INNER JOIN addresses AS a ON s.id_address = a.id
-                WHERE s.id = :id";
+            $sql = "SELECT * FROM stores WHERE id = :id";
             $result = $this->select($sql, $this, [
-                ':id' => $this->id
+                ':id' => $this->getId()
             ]);
 
             if (count($result) > 0) {
@@ -59,33 +57,36 @@
         {
             if (!$this->emailExists()) {
                 $hash = password_hash($this->password, PASSWORD_DEFAULT);
-                $address = new Address();
-                $address->setData($this->address);
-                
-                if ($address->create()) {
-                    $sql = "INSERT INTO stores (
-                            fantasy_name, cnpj, company_name, id_address, phone, cell_phone,
-                            responsible_contact, email, password
-                        ) VALUES (
-                            :fantasy_name, :cnpj, :company_name, :id_address, :phone, :cell_phone,
-                            :responsible_contact, :email, :password
-                        )
-                    ";
-                    $this->query($sql, [
-                        ':fantasy_name' => $this->fantasy_name,
-                        ':cnpj' => $this->cnpj,
-                        ':company_name' => $this->company_name,
-                        ':id_address' => $address->id_address,
-                        ':phone' => $this->phone,
-                        ':cell_phone' => $this->cell_phone,
-                        ':responsible_contact' => $this->responsible_contact,
-                        ':email' => $this->email,
-                        ':password' => $hash
-                    ]);
 
+                $sql = "INSERT INTO stores (
+                        fantasy_name, cnpj, company_name, phone, cell_phone,
+                        responsible_contact, email, password
+                    ) VALUES (
+                        :fantasy_name, :cnpj, :company_name, :phone, :cell_phone,
+                        :responsible_contact, :email, :password
+                    )
+                ";
+                $result = $this->query($sql, [
+                    ':fantasy_name' => $this->fantasy_name,
+                    ':cnpj' => $this->cnpj,
+                    ':company_name' => $this->company_name,
+                    ':phone' => $this->phone,
+                    ':cell_phone' => $this->cell_phone,
+                    ':responsible_contact' => $this->responsible_contact,
+                    ':email' => $this->email,
+                    ':password' => $hash
+                ]);
+
+                if ($result) {
                     $this->id_store = $this->db->lastInsertId();
 
-                    return true;
+                    $address = new Address();
+                    $address->setData($this->address);
+                    $address->id_store = $this->id_store;
+                    
+                    if ($address->create()) {
+                        return true;
+                    }
                 }
             }
 

@@ -64,7 +64,8 @@
                         if ($store->create()) {
                             $response['jwt'] = $store->createJWT();
                         } else {
-                            $response['error'] = 'E-mail já existente.';
+                            $response['error'] = true;
+                            $response['error_email'] = true;
                         }
                     } else {
                         $response['error'] = 'E-mail inválido.';
@@ -74,6 +75,26 @@
                 }
             } else {
                 $response['error'] = 'Método de requisição incompatível.';
+            }
+
+            return $this->returnJson($response);
+        }
+
+        public function getStore()
+        {
+            $response = [
+                'error' => false,
+                'logged' => false
+            ];
+
+            $method = $this->getMethod();
+            $token = $_SERVER['HTTP_JWT'] ?? null;
+
+            $store = new Store();
+
+            if (!empty($token) && $store->validateJWT($token)) {
+                $response['logged'] = true;
+                $response['store'] = $store->getStore();
             }
 
             return $this->returnJson($response);

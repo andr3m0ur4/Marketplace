@@ -49,9 +49,9 @@
         public function create()
         {
             $sql = "INSERT INTO addresses (
-                    public_place, number, neighborhood, complement, city, uf, zip_code
+                    public_place, number, neighborhood, complement, city, uf, zip_code, id_store
                 ) VALUES (
-                    :public_place, :number, :neighborhood, :complement, :city, :uf, :zip_code
+                    :public_place, :number, :neighborhood, :complement, :city, :uf, :zip_code, :id_store
                 )
             ";
             $result = $this->query($sql, [
@@ -61,11 +61,11 @@
                 ':complement' => $this->complement,
                 ':city' => $this->city,
                 ':uf' => $this->uf,
-                ':zip_code' => $this->zip_code
+                ':zip_code' => $this->zip_code,
+                ':id_store' => $this->id_store
             ]);
 
             if ($result) {
-                $this->id_address = $this->db->lastInsertId();
                 return true;
             }
 
