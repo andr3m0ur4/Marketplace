@@ -9,6 +9,7 @@
         '/stores/{id}' => '/stores/manage/:id',
 
         '/products/new' => '/products/insert',
+        '/products/my-list' => '/products/my-products',
         '/product/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
 

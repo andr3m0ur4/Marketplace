@@ -27,6 +27,22 @@
             }
         }
 
+        public function getMyProducts()
+        {
+            $data = [];
+
+            $sql = "SELECT * FROM products WHERE id_store = :id_store";
+            $results = $this->select($sql, $this, [
+                ':id_store' => $this->id_store
+            ]);
+
+            if (count($results) > 0) {
+                $data = $results;
+            }
+
+            return $data;
+        }
+
         public function getProduct()
         {
             $data = [];

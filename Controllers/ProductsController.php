@@ -8,11 +8,38 @@
 
     class ProductsController extends Controller
     {
+        public function myProducts()
+        {
+            $response = [
+                'error' => false
+            ];
+
+            $method = $this->getMethod();
+            $token = $_SERVER['HTTP_JWT'] ?? null;
+
+            $store = new Store();
+
+            if (!empty($token) && $store->validateJWT($token)) {
+                $response['logged'] = true;
+
+                if ($method == 'GET') {
+                    $product = new Product();
+                    $product->id_store = $store->getId();
+                    $response['data'] = $product->getMyProducts();
+                } else {
+                    $response['error'] = 'Método de requisição incompatível.';
+                }
+            } else {
+                $response['error'] = 'Acesso negado.';
+            }
+
+            return $this->returnJson($response);
+        }
+
         public function insert()
         {
             $response = [
-                'error' => '',
-                'logged' => false
+                'error' => false
             ];
 
             $method = $this->getMethod();
@@ -23,7 +50,6 @@
 
             if (!empty($token) && $store->validateJWT($token)) {
                 $response['logged'] = true;
-                $response['thats_me'] = false;
 
                 if ($method == 'POST') {
                     $product = new Product();
