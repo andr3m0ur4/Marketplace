@@ -24,12 +24,16 @@
             if (!empty($token) && $store->validateJWT($token)) {
                 $response['logged'] = true;
                 $response['thats_me'] = false;
-                $store->id = $store->getId();
 
                 if ($method == 'POST') {
                     $product = new Product();
                     $product->setData($data);
-                    $product->create();
+                    $product->id_store = $store->getId();
+                    if ($product->create()) {
+                        $response['error'] = false;
+                    } else {
+                        $response['error'] = 'Ocorreu um erro!';
+                    }
                 } else {
                     $response['error'] = 'Método de requisição incompatível.';
                 }

@@ -8,9 +8,9 @@
         '/stores/{id}/address' => '/stores/address/:id',
         '/stores/{id}' => '/stores/manage/:id',
 
+        '/products/new' => '/products/insert',
         '/product/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
-        '/product' => '/products/insert',
 
         '/categories' => '/categories/index'
     ];

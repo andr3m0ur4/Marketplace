@@ -173,7 +173,7 @@
             $value = $jwt->validate($token);
 
             if (isset($value->id_store)) {
-                $this->id_store = $value->id_store;
+                $this->id_store = intval($value->id_store);
                 return true;
             }
 

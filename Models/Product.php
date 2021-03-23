@@ -8,12 +8,16 @@
     {
         public function __get($name)
         {
-            return $this->$name;
+            return $this->$name ?? null;
         }
 
         public function __set($name, $value)
         {
-            $this->$name = $value;
+            if ($name == 'id_store' || $name == 'id') {
+                $this->$name = intval($value);
+            } else {
+                $this->$name = $value;
+            }
         }
 
         public function setData($data = [])
@@ -42,15 +46,15 @@
         public function create()
         {
             $sql = "INSERT INTO products (
-                    name, description, picture, availability, price, id_category, id_store
+                    name, description, availability, price, id_category, id_store
                 ) VALUES (
-                    :name, :description, :picture, :availability, :price, :id_category, :id_store
+                    :name, :description, :availability, :price, :id_category, :id_store
                 )
             ";
-            $this->query($sql, [
+
+            return $this->query($sql, [
                 ':name' => $this->name,
                 ':description' => $this->description,
-                ':picture' => $this->picture,
                 ':availability' => $this->availability,
                 ':price' => $this->price,
                 ':id_category' => $this->id_category,
