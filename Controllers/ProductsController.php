@@ -88,35 +88,38 @@
                 $response['thats_me'] = false;
                 $product = new Product();
                 $product->id = $id;
+                $product->setData($product->getProduct());
 
-                if ($id == $store->getId()) {
+                if ($product->id_store == $store->getId()) {
                     $response['thats_me'] = true;
-                }
 
-                switch ($method) {
-                    case 'GET':
-                        $response['data'] = $store->getStore();
-
-                        if (count((array) $response['data']) === 0) {
-                            $response['error'] = 'Loja não existe.';
-                        }
-                        break;
-
-                    case 'PUT':
-                        if (count($data) > 0) {
-                            $product->setData($data);
-                            $response['error'] = $product->editProduct();
-                        } else {
-                            $response['error'] = 'Preencha os dados corretamente!';
-                        }
-                        break;
-
-                    case 'DELETE':
-                        $response['error'] = $product->delete();
-                        break;
-
-                    default:
-                        $response['error'] = "Método $method não disponível.";
+                    switch ($method) {
+                        case 'GET':
+                            $response['data'] = (array) $product;
+    
+                            if (count($response['data']) === 0) {
+                                $response['error'] = 'Produto não existe.';
+                            }
+                            break;
+    
+                        case 'PUT':
+                            if (count($data) > 0) {
+                                $product->setData($data);
+                                $response['error'] = $product->editProduct();
+                            } else {
+                                $response['error'] = 'Preencha os dados corretamente!';
+                            }
+                            break;
+    
+                        case 'DELETE':
+                            $response['error'] = $product->delete();
+                            break;
+    
+                        default:
+                            $response['error'] = "Método $method não disponível.";
+                    }
+                } else {
+                    $response['error'] = 'Acesso negado.';
                 }
             } else {
                 $response['error'] = 'Acesso negado.';

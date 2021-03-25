@@ -10,7 +10,7 @@
 
         '/products/new' => '/products/insert',
         '/products/my-list' => '/products/my-products',
-        '/product/{id}' => '/products/manage/:id',
+        '/products/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
 
         '/categories' => '/categories/index'
