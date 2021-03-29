@@ -73,7 +73,7 @@
         public function manage($id)
         {
             $response = [
-                'error' => '',
+                'error' => false,
                 'logged' => false
             ];
 

@@ -25,7 +25,7 @@
 
                 case 'POST':
                     $data = json_decode(file_get_contents('php://input'));
-
+                    
                     $data = is_null($data) ? $_POST : $data;
 
                     return (array) $data;
