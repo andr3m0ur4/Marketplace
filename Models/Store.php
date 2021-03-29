@@ -161,6 +161,13 @@
             }
         }
 
+        public function total()
+        {
+            $sql = "SELECT COUNT(*) AS counter FROM stores";
+            $results = $this->select($sql, $this);
+            return $results[0]->counter;
+        }
+
         public function createJWT()
         {
             $jwt = new JWT();

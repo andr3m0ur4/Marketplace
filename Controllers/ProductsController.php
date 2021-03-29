@@ -128,6 +128,42 @@
             return $this->returnJson($response);
         }
 
+        public function getTotal()
+        {
+            $response = [
+                'error' => false
+            ];
+
+            $method = $this->getMethod();
+
+            if ($method == 'GET') {
+                $product = new Product();
+                $response['total'] = $product->total();
+            } else {
+                $response['error'] = 'Método de requisição incompatível.';
+            }
+
+            return $this->returnJson($response);
+        }
+
+        public function latestProducts()
+        {
+            $response = [
+                'error' => false
+            ];
+
+            $method = $this->getMethod();
+
+            if ($method == 'GET') {
+                $product = new Product();
+                $response['data'] = $product->latestProducts();
+            } else {
+                $response['error'] = 'Método de requisição incompatível.';
+            }
+
+            return $this->returnJson($response);
+        }
+
         public function search()
         {
             $response = [

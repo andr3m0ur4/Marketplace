@@ -107,6 +107,19 @@
             ]);
         }
 
+        public function total()
+        {
+            $sql = "SELECT COUNT(*) AS counter FROM products";
+            $results = $this->select($sql, $this);
+            return $results[0]->counter;
+        }
+
+        public function latestProducts()
+        {
+            $sql = "SELECT * FROM products ORDER BY id DESC";
+            return $this->select($sql, $this);
+        }
+
         public function search($query)
         {
             $data = [];

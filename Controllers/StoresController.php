@@ -208,6 +208,24 @@
             return $this->returnJson($response);
         }
 
+        public function getTotal()
+        {
+            $response = [
+                'error' => false
+            ];
+
+            $method = $this->getMethod();
+
+            if ($method == 'GET') {
+                $store = new Store();
+                $response['total'] = $store->total();
+            } else {
+                $response['error'] = 'Método de requisição incompatível.';
+            }
+
+            return $this->returnJson($response);
+        }
+
         private function getRequired()
         {
             return [
