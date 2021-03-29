@@ -87,7 +87,8 @@
                     name = :name, description = :description, picture = :picture, availability = :availability,
                     price = :price, id_category = :id_category
                 WHERE id = :id";
-            $this->query($sql, [
+                
+            return $this->query($sql, [
                 ':name' => $product->name,
                 ':description' => $product->description,
                 ':picture' => $product->picture,
