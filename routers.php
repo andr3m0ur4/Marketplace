@@ -13,6 +13,7 @@
         '/products/my-list' => '/products/my-products',
         '/products/latest-products' => '/products/latestProducts',
         '/products/total' => '/products/getTotal',
+        '/products/get/{id}' => '/products/getProduct/:id',
         '/products/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
 

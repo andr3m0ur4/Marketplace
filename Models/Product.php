@@ -47,7 +47,14 @@
         {
             $data = [];
 
-            $sql = "SELECT * FROM products WHERE id = :id";
+            $sql = "SELECT
+                    p.*,
+                    s.fantasy_name, s.phone, s.cell_phone,
+                    c.name AS category
+                FROM products AS p
+                INNER JOIN stores AS s ON p.id_store = s.id
+                INNER JOIN categories AS c ON p.id_category = c.id
+                WHERE p.id = :id";
             $result = $this->select($sql, $this, [
                 ':id' => $this->id
             ]);

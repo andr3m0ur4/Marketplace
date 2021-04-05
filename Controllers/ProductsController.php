@@ -8,6 +8,32 @@
 
     class ProductsController extends Controller
     {
+        public function getProduct($id)
+        {
+            $response = [
+                'error' => false,
+                'logged' => false
+            ];
+
+            $method = $this->getMethod();
+
+            if ($method == 'GET') {
+                $product = new Product();
+                $product->id = $id;
+                $product->setData($product->getProduct());
+
+                $response['data'] = (array) $product;
+    
+                if (count($response['data']) === 0) {
+                    $response['error'] = 'Produto não existe.';
+                }
+            } else {
+                $response['error'] = 'Método de requisição incompatível.';
+            }
+
+            return $this->returnJson($response);
+        }
+
         public function myProducts()
         {
             $response = [
@@ -94,14 +120,6 @@
                     $response['thats_me'] = true;
 
                     switch ($method) {
-                        case 'GET':
-                            $response['data'] = (array) $product;
-    
-                            if (count($response['data']) === 0) {
-                                $response['error'] = 'Produto não existe.';
-                            }
-                            break;
-    
                         case 'PUT':
                             if (count($data) > 0) {
                                 $product->setData($data);
