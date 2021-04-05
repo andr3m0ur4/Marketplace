@@ -130,7 +130,7 @@
                             break;
     
                         case 'DELETE':
-                            $response['error'] = $product->delete();
+                            $response['error'] = !$product->delete();
                             break;
     
                         default:

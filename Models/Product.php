@@ -109,7 +109,7 @@
         public function delete()
         {
             $sql = "DELETE FROM products WHERE id = :id";
-            $this->query($sql, [
+            return $this->query($sql, [
                 ':id' => $this->id
             ]);
         }
