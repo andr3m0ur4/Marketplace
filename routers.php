@@ -5,6 +5,7 @@
         '/stores/login' => '/stores/login',
         '/stores/register' => '/stores/register',
         '/stores/get-store' => '/stores/get-store',
+        '/stores/total' => '/stores/getTotal',
         '/stores/{id}/address' => '/stores/address/:id',
         '/stores/{id}' => '/stores/manage/:id',
 
@@ -12,9 +13,11 @@
         '/products/my-list' => '/products/my-products',
         '/products/get-total' => '/products/get-total',
         '/product/{id}' => '/products/manage/:id',
+        '/products/latest-products' => '/products/latestProducts',
+        '/products/total' => '/products/getTotal',
+        '/products/get/{id}' => '/products/getProduct/:id',
+        '/products/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
 
-        '/categories' => '/categories/index',
-
-        '/' => '/home/index'
+        '/categories' => '/categories/index'
     ];

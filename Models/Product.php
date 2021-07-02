@@ -47,7 +47,14 @@
         {
             $data = [];
 
-            $sql = "SELECT * FROM products WHERE id = :id";
+            $sql = "SELECT
+                    p.*,
+                    s.fantasy_name, s.phone, s.cell_phone,
+                    c.name AS category
+                FROM products AS p
+                INNER JOIN stores AS s ON p.id_store = s.id
+                INNER JOIN categories AS c ON p.id_category = c.id
+                WHERE p.id = :id";
             $result = $this->select($sql, $this, [
                 ':id' => $this->id
             ]);
@@ -95,7 +102,8 @@
                     name = :name, description = :description, picture = :picture, availability = :availability,
                     price = :price, id_category = :id_category
                 WHERE id = :id";
-            $this->query($sql, [
+                
+            return $this->query($sql, [
                 ':name' => $product->name,
                 ':description' => $product->description,
                 ':picture' => $product->picture,
@@ -109,9 +117,22 @@
         public function delete()
         {
             $sql = "DELETE FROM products WHERE id = :id";
-            $this->query($sql, [
+            return $this->query($sql, [
                 ':id' => $this->id
             ]);
+        }
+
+        public function total()
+        {
+            $sql = "SELECT COUNT(*) AS counter FROM products";
+            $results = $this->select($sql, $this);
+            return $results[0]->counter;
+        }
+
+        public function latestProducts()
+        {
+            $sql = "SELECT * FROM products ORDER BY id DESC";
+            return $this->select($sql, $this);
         }
 
         public function search($query)
