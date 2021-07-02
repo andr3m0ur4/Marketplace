@@ -36,6 +36,13 @@
             return $this->returnJson($response);
         }
 
+        public function getTotal() {
+            $product = new Product();
+            $total = $product->getTotal();
+
+            return $this->returnJson($total);
+        }
+
         public function insert()
         {
             $response = [

@@ -10,8 +10,11 @@
 
         '/products/new' => '/products/insert',
         '/products/my-list' => '/products/my-products',
+        '/products/get-total' => '/products/get-total',
         '/product/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
 
-        '/categories' => '/categories/index'
+        '/categories' => '/categories/index',
+
+        '/' => '/home/index'
     ];

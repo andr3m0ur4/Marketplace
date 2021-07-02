@@ -59,6 +59,14 @@
             return $data;
         }
 
+        public function getTotal() {
+            $sql = "SELECT COUNT(*) AS total FROM products ";
+            $result = $this->select($sql, $this);
+            $total = $result[0];
+
+            return $total;
+        }
+
         public function create()
         {
             $sql = "INSERT INTO products (
