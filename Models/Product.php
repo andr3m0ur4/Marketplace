@@ -66,14 +66,6 @@
             return $data;
         }
 
-        public function getTotal() {
-            $sql = "SELECT COUNT(*) AS total FROM products ";
-            $result = $this->select($sql, $this);
-            $total = $result[0];
-
-            return $total;
-        }
-
         public function create()
         {
             $sql = "INSERT INTO products (
@@ -131,7 +123,10 @@
 
         public function latestProducts()
         {
-            $sql = "SELECT * FROM products ORDER BY id DESC";
+            $sql = "SELECT p.*, c.name AS category FROM products AS p
+                    INNER JOIN categories AS c ON p.id_category = c.id
+                    ORDER BY id DESC";
+                    
             return $this->select($sql, $this);
         }
 

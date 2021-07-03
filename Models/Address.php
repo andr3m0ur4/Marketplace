@@ -10,7 +10,7 @@
 
         public function __get($name)
         {
-            return $this->$name;
+            return $this->$name ?? null;
         }
 
         public function __set($name, $value)
@@ -60,7 +60,7 @@
                 ':neighborhood' => $this->neighborhood,
                 ':complement' => $this->complement,
                 ':city' => $this->city,
-                ':uf' => $this->uf,
+                ':uf' => strtoupper($this->uf),
                 ':zip_code' => $this->zip_code,
                 ':id_store' => $this->id_store
             ]);

@@ -11,7 +11,6 @@
 
         '/products/new' => '/products/insert',
         '/products/my-list' => '/products/my-products',
-        '/products/get-total' => '/products/get-total',
         '/product/{id}' => '/products/manage/:id',
         '/products/latest-products' => '/products/latestProducts',
         '/products/total' => '/products/getTotal',
