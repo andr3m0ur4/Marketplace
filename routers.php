@@ -5,6 +5,7 @@
         '/stores/login' => '/stores/login',
         '/stores/register' => '/stores/register',
         '/stores/get-store' => '/stores/get-store',
+        '/stores/get-name' => '/stores/get-name',
         '/stores/total' => '/stores/getTotal',
         '/stores/{id}/address' => '/stores/address/:id',
         '/stores/{id}' => '/stores/manage/:id',

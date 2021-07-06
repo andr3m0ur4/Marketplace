@@ -100,6 +100,25 @@
             return $this->returnJson($response);
         }
 
+        public function getName() {
+            $response = [
+                'error' => false,
+                'logged' => false
+            ];
+
+            $method = $this->getMethod();
+            $token = $_SERVER['HTTP_JWT'] ?? null;
+
+            $store = new Store();
+
+            if (!empty($token) && $store->validateJWT($token)) {
+                $response['logged'] = true;
+                $response['company_name'] = $store->getStore()->company_name;
+            }
+
+            return $this->returnJson($response);
+        }
+
         public function manage($id)
         {
             $response = [
