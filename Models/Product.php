@@ -148,6 +148,21 @@
             return $data;
         }
 
+        public function deletePhoto()
+        {
+            if ($this->picture != '' && file_exists("./images/products/{$this->picture}")) {
+                unlink("./images/products/{$this->picture}");
+
+                $sql = "UPDATE products SET picture = '' WHERE id = :id";
+
+                return !$this->query($sql, [
+                    ':id' => $this->id
+                ]);
+            }
+
+            return 'Arquivo não existe!';
+        }
+
         private function validateAttributes($product)
         {
             if (!empty($this->name)) {

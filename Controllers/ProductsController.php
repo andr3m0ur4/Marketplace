@@ -224,4 +224,40 @@
             // give callback to your angular code with the image src name
             return $this->returnJson($response);
         }
+
+        public function deleteImage($id)
+        {
+            $response = [
+                'error' => false,
+                'logged' => false
+            ];
+
+            $method = $this->getMethod();
+            $data = $this->getRequestData();
+            $token = $_SERVER['HTTP_JWT'] ?? null;
+
+            $store = new Store();
+
+            if (!empty($token) && $store->validateJWT($token)) {
+                $response['logged'] = true;
+                $response['thats_me'] = false;
+                $product = new Product();
+                $product->id = $id;
+                $product->setData($product->getProduct());
+
+                if ($product->id_store == $store->getId()) {
+                    $response['thats_me'] = true;
+
+                    if ($method == 'DELETE') {
+                        $response['error'] = $product->deletePhoto();
+                    }
+                } else {
+                    $response['error'] = 'Acesso negado.';
+                }
+            } else {
+                $response['error'] = 'Acesso negado.';
+            }
+
+            return $this->returnJson($response);
+        }
     }

@@ -16,6 +16,7 @@
         '/products/total' => '/products/getTotal',
         '/products/get/{id}' => '/products/getProduct/:id',
         '/products/update-image' => '/products/update-image',
+        '/products/delete-image/{id}' => '/products/delete-image/:id',
         '/products/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
 
