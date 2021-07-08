@@ -11,8 +11,7 @@
         public function getProduct($id)
         {
             $response = [
-                'error' => false,
-                'logged' => false
+                'error' => false
             ];
 
             $method = $this->getMethod();
@@ -123,7 +122,7 @@
                         case 'PUT':
                             if (count($data) > 0) {
                                 $product->setData($data);
-                                $response['error'] = $product->editProduct();
+                                $response['error'] = !$product->editProduct();
                             } else {
                                 $response['error'] = 'Preencha os dados corretamente!';
                             }
@@ -203,6 +202,26 @@
                 $response['error'] = 'Método de requisição incompatível.';
             }
 
+            return $this->returnJson($response);
+        }
+
+        public function updateImage()
+        {
+            $response = [
+                'error' => true
+            ];
+
+            if (isset($_FILES['picture']) && !$_FILES['picture']['error']) {
+                // upload image in the folder images
+                $temp = explode('.', $_FILES['picture']['name']);
+                $new_filename = substr(md5(time() . $temp[0]), 0, 10) . '.' . end($temp);
+                move_uploaded_file($_FILES['picture']['tmp_name'], './images/products/' . $new_filename);
+
+                $response['error'] = false;
+                $response['new_filename'] = $new_filename;
+            }
+
+            // give callback to your angular code with the image src name
             return $this->returnJson($response);
         }
     }

@@ -13,8 +13,10 @@
 
         public function __set($name, $value)
         {
-            if ($name == 'id_store' || $name == 'id') {
+            if ($name == 'id_store' || $name == 'id' || $name == 'availability' || $name == 'id_category') {
                 $this->$name = intval($value);
+            } else if ($name == 'price') {
+                $this->$name = doubleval($value);
             } else {
                 $this->$name = $value;
             }

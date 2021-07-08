@@ -12,10 +12,10 @@
 
         '/products/new' => '/products/insert',
         '/products/my-list' => '/products/my-products',
-        '/product/{id}' => '/products/manage/:id',
         '/products/latest-products' => '/products/latestProducts',
         '/products/total' => '/products/getTotal',
         '/products/get/{id}' => '/products/getProduct/:id',
+        '/products/update-image' => '/products/update-image',
         '/products/{id}' => '/products/manage/:id',
         '/products' => '/products/search',
 
