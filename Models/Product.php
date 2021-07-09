@@ -110,6 +110,8 @@
 
         public function delete()
         {
+            $this->deletePhoto();
+
             $sql = "DELETE FROM products WHERE id = :id";
             return $this->query($sql, [
                 ':id' => $this->id

@@ -139,7 +139,7 @@
                     $response['error'] = 'Acesso negado.';
                 }
             } else {
-                $response['error'] = 'Acesso negado.';
+                $response['error'] = 'Acesso negado!';
             }
 
             return $this->returnJson($response);
